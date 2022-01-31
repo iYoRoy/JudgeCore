@@ -74,31 +74,87 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <IncludePath>/usr/include</IncludePath>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="JudgeThread.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SQL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="JudgeThread.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="SQL.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <Link>
-      <LibraryDependencies>`mysql_config --cflags --libs`</LibraryDependencies>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <Link>
-      <LibraryDependencies>`mysql_config --cflags --libs`</LibraryDependencies>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <LibraryDependencies>`mysql_config --cflags --libs`</LibraryDependencies>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <Link>
-      <LibraryDependencies>`mysql_config --cflags --libs`</LibraryDependencies>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Link>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Link>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <Link>
+      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
+      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

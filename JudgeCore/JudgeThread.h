@@ -1,5 +1,8 @@
 #pragma once
+/*
+JudgeThreadÀà£ºÅĞ¶¨ºËĞÄ
 
+*/
 #include <pthread.h>
 
 class JudgeThread {
