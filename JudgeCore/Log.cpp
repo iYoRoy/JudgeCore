@@ -1,27 +1,18 @@
 #include "Log.h"
-void Log::Print(std::string str,std::string logtype) {
-	std::cout << TimeStamp() << '[' << logtype << ']' << str << std::endl;
-	if (toFile) {
-		ofs << TimeStamp() << '[' << logtype << ']' << str << std::endl;
-	}
-}
 
-void Log::SetOutPut(std::string file)
-{
-	writefile = file;
-	ofs.open(file);
+void Log::Print(std::string str, std::string worker, std::string logtype) {
+	char buff[128];
+	sprintf(buff, "%s[%s][%s]%s\n", TimeStamp().c_str(), logtype.c_str(), worker.c_str(), str.c_str());
+	printf(buff);
+	return;
 }
 
 Log::Log()
 {
-	writefile = "";
-	toFile = false;
 }
 
 Log::~Log()
 {
-	ofs.close();
-	toFile = false;
 }
 
 std::string Log::TimeStamp()

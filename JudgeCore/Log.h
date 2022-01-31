@@ -2,16 +2,15 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cstring>
+#include <unistd.h>
 
 class Log {
 public:
 	Log();
 	~Log();
-	void Print(std::string str, std::string logtype);
-	void SetOutPut(std::string file);
+	void Print(std::string str, std::string worker, std::string logtype);
 private:
-	std::string writefile;
-	std::ofstream ofs;
-	bool toFile;
+	pthread_t pth;
 	std::string TimeStamp();
 };
