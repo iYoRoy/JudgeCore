@@ -2,26 +2,20 @@
 
 SQL::~SQL()
 {
-	if (sql != NULL)
-		mysql_close(sql);
+	mysql_close(&sql);
 }
 
-bool SQL::Connect(std::string host, std::string user, std::string passwd, std::string dbname)
+bool SQL::Connect(std::string host, std::string user, std::string passwd, std::string dbname, int port)
 {
-	mysql_real_connect(sql, host.c_str(), user.c_str(), passwd.c_str(), dbname.c_str(), 0, NULL, 0);
-	return !(sql == NULL);
+	return mysql_real_connect(&sql, host.c_str(), user.c_str(), passwd.c_str(), dbname.c_str(), port, NULL, 0);
 }
 
 bool SQL::Init()
 {
-	sql = mysql_init(NULL);
-	if (sql == NULL) {
-		return false;
-	}
-	return true;
+	return mysql_init(&sql);
 }
 
 std::string SQL::GetLastError()
 {
-	return std::string(mysql_error(sql));
+	return std::string(mysql_error(&sql));
 }

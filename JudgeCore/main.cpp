@@ -6,16 +6,18 @@
 
 #include <jsoncpp/json/json.h>
 
-#include "JudgeThread.h"
-#include "Log.h"
 #include "SQL.h"
 
 std::string strCfgFile;
 std::string strDataFolder;
-JudgeThread* ths;
 int nThreads;
 int Timeout_Sec;
 SQL db;
+struct Language {
+	int ID;
+	std::string Name;
+	std::string CompileCommand;
+}*Lang;
 
 int main(int argc, char* argv[])
 {
@@ -37,6 +39,11 @@ int main(int argc, char* argv[])
 	nThreads = (root["WorkerThreads"].asInt() != 0 ? root["WorkerThreads"].asInt() : sysconf(_SC_NPROCESSORS_ONLN));
 	strDataFolder = root["DataFolder"].asString();
 	Timeout_Sec = root["TimeOut"].asInt();
+	Lang = new Language[root["Languages"].size()];
+	for (int i = 0; i < root["Languages"].size(); i++)
+		Lang[i].Name = root["Languages"][i]["name"].asString(),
+		Lang[i].CompileCommand = root["Languages"][i]["command"].asString(),
+		Lang[i].ID = root["Languages"][i]["id"].asInt();
 	log.Print("Config file Loaded.", "Main", "I");
 
 	log.Print("Connect to Database...", "Main", "I");
@@ -46,7 +53,11 @@ int main(int argc, char* argv[])
 		log.Print("Service Stop.", "Main", "E");
 //		return 0;
 	}
-	if (!db.Connect(root["Database"]["host"].asString(), root["Database"]["user"].asString(), root["Database"]["passwd"].asString(), root["Database"]["dbname"].asString())) {
+	if (!db.Connect(root["Database"]["host"].asString(),
+					root["Database"]["user"].asString(),
+					root["Database"]["passwd"].asString(),
+					root["Database"]["dbname"].asString(),
+					root["Database"]["port"].asInt())) {
 		log.Print("Database Connect FAILED!", "Main", "F");
 		log.Print(db.GetLastError(), "Main", "F");
 		log.Print("Service Stop.", "Main", "E");
@@ -65,5 +76,6 @@ int main(int argc, char* argv[])
 
 
 	delete[] ths;
+	delete[] Lang;
 	return 0;
 }
