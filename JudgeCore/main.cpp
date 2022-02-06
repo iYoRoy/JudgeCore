@@ -2,80 +2,81 @@
 #include <cstring>
 #include <string>
 #include <fstream>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <jsoncpp/json/json.h>
 
+#include "JudgeThread.h"
+#include "Log.h"
 #include "SQL.h"
 
 std::string strCfgFile;
 std::string strDataFolder;
-int nThreads;
-int Timeout_Sec;
+pid_t process_id;
+pthread_t pLog, pSql;
+pthread_t* pWorker;
 SQL db;
-struct Language {
-	int ID;
-	std::string Name;
-	std::string CompileCommand;
-}*Lang;
+Log log;
+
+std::queue<JudgeData>	TaskQueue;
+std::queue<std::string>	LogQueue;
+std::queue<std::string> SQLQuery;
+
+void* OnWriteLog(void*) {
+	LogQueue;
+}
+
+void* OnQueryDatabase(void*) {
+
+}
+
+void* OnThreadMain(void*) {
+
+}
 
 int main(int argc, char* argv[])
 {
-	Log log;
+	process_id = getpid();
 	strCfgFile = "config.json";
 	for (int i = 0; i < argc; i++) {
 		if (strstr(argv[i], "--Config-File"))
 			strCfgFile = argv[++i];
 	}
-	log.Print("Loading Config...", "Main", "I");
-	Json::Value root;
-	Json::Reader reader; 
-	std::ifstream ifs(strCfgFile);
-	if (!reader.parse(ifs, root)) {
-		log.Print("Failed to load Config file!", "Main", "E");
-		log.Print("Service Stop.", "Main", "E");
+	Json::Value cfgroot;
+	Json::Reader reader;
+	std::ifstream ifs_cfg(strCfgFile);
+	log.Print("Loading Config...", process_id, "I");
+	if (!reader.parse(ifs_cfg, cfgroot)) {
+		log.Print("Failed to load Config file!", process_id, "E");
+		log.Print("Stop.", process_id, "E");
+		ifs_cfg.close();
 //		return -1;
 	}
-	nThreads = (root["WorkerThreads"].asInt() != 0 ? root["WorkerThreads"].asInt() : sysconf(_SC_NPROCESSORS_ONLN));
-	strDataFolder = root["DataFolder"].asString();
-	Timeout_Sec = root["TimeOut"].asInt();
-	Lang = new Language[root["Languages"].size()];
-	for (int i = 0; i < root["Languages"].size(); i++)
-		Lang[i].Name = root["Languages"][i]["name"].asString(),
-		Lang[i].CompileCommand = root["Languages"][i]["command"].asString(),
-		Lang[i].ID = root["Languages"][i]["id"].asInt();
-	log.Print("Config file Loaded.", "Main", "I");
+	ifs_cfg.close();
+	log.Print("Config file Loaded.", process_id, "I");
 
-	log.Print("Connect to Database...", "Main", "I");
+	log.Print("Connecting to Database...", process_id, "I");
 	if (!db.Init()) {
-		log.Print("Database INIT FAILED!", "Main", "F");
-		log.Print(db.GetLastError(), "Main", "F");
-		log.Print("Service Stop.", "Main", "E");
+		log.Print("Connection Init FAILED!", process_id, "F");
+		log.Print(db.GetLastError(), process_id, "F");
+		log.Print("Stop.", process_id, "E");
 //		return 0;
 	}
-	if (!db.Connect(root["Database"]["host"].asString(),
-					root["Database"]["user"].asString(),
-					root["Database"]["passwd"].asString(),
-					root["Database"]["dbname"].asString(),
-					root["Database"]["port"].asInt())) {
-		log.Print("Database Connect FAILED!", "Main", "F");
-		log.Print(db.GetLastError(), "Main", "F");
-		log.Print("Service Stop.", "Main", "E");
+	if (!db.Connect({ cfgroot["Database"]["host"].asString(),
+					cfgroot["Database"]["user"].asString(),
+					cfgroot["Database"]["passwd"].asString(),
+					cfgroot["Database"]["dbname"].asString(),
+					cfgroot["Database"]["port"].asInt() })) {
+		log.Print("Database Connect FAILED!", process_id, "F");
+		log.Print(db.GetLastError(), process_id, "F");
+		log.Print("Stop.", process_id, "E");
 //		return 0;
 	}
-	log.Print("Database Connected!", "Main", "I");
-	log.Print("Starting Worker threads...", "Main", "I");
-	ths = new JudgeThread[nThreads];
-	for (int i = 0; i < nThreads; i++) {
-		char bufferStr[64];
-		sprintf(bufferStr, "Starting Worker%d...", i);
-		log.Print(bufferStr, "Main", "I");
-		ths[i].Create(i);
-	}
-	
+	log.Print("Database Connected!", process_id, "I");
 
+	log.Print("Starting Threads...", process_id, "I");
+	pthread_create(&pth, 0, OnThreadMain, 0);
 
-	delete[] ths;
-	delete[] Lang;
 	return 0;
 }

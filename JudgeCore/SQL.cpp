@@ -5,9 +5,9 @@ SQL::~SQL()
 	mysql_close(&sql);
 }
 
-bool SQL::Connect(std::string host, std::string user, std::string passwd, std::string dbname, int port)
+bool SQL::Connect(ConnectInfo info)
 {
-	return mysql_real_connect(&sql, host.c_str(), user.c_str(), passwd.c_str(), dbname.c_str(), port, NULL, 0);
+	return mysql_real_connect(&sql, info.host.c_str(), info.user.c_str(), info.passwd.c_str(), info.dbname.c_str(), info.port, NULL, 0);
 }
 
 bool SQL::Init()

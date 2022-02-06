@@ -3,10 +3,18 @@
 #include <string>
 #include <mysql/mysql.h>
 
+struct ConnectInfo{
+	std::string host;
+	std::string user;
+	std::string passwd;
+	std::string dbname;
+	int port;
+};
+
 class SQL {
 public:
 	~SQL();
-	bool Connect(std::string host, std::string user, std::string passwd, std::string dbname, int port);
+	bool Connect(ConnectInfo info);
 	bool Init();
 	std::string GetLastError();
 private:

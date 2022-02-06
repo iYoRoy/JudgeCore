@@ -99,11 +99,13 @@
     <IncludePath>/usr/include</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="JudgeThread.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SQL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="JudgeThread.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="SQL.h" />
   </ItemGroup>

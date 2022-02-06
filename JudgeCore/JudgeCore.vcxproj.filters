@@ -8,6 +8,9 @@
     <ClCompile Include="SQL.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="JudgeThread.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -22,6 +25,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SQL.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="JudgeThread.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
