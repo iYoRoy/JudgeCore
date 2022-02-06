@@ -10,7 +10,7 @@ class Log {
 public:
 	Log();
 	~Log();
-	void Print(std::string str, int workerPID, std::string logtype);
+	void Print(std::string str, std::string worker, std::string logtype);
 private:
 	std::string TimeStamp();
 	std::ofstream tofile;
