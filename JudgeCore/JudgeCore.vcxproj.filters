@@ -24,5 +24,8 @@
     <ClInclude Include="SQL.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="JudgeCore.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

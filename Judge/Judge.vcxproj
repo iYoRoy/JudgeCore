@@ -35,9 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4055a73f-6495-43a7-8326-5a3a277a1e26}</ProjectGuid>
+    <ProjectGuid>{e5a2050e-a31b-4888-a692-807cc2724007}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>JudgeCore</RootNamespace>
+    <RootNamespace>Judge</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -74,86 +74,57 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <IncludePath>/usr/include</IncludePath>
-  </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SQL.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="JudgeCore.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="SQL.h" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Link>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Link>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <Link>
-      <LibraryDependencies>mysqlclient;jsoncpp;pthread;dl;z;ssl;crypto;resolv;m;rt</LibraryDependencies>
-      <AdditionalOptions>`mysql_config --cflags --libs` -ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <Link>
+      <AdditionalOptions>-ljsoncpp %(AdditionalOptions)</AdditionalOptions>
+      <LibraryDependencies>jsoncpp</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
