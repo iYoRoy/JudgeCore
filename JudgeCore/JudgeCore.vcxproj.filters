@@ -8,6 +8,7 @@
     <ClCompile Include="SQL.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="JudgeCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

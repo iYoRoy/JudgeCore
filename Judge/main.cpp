@@ -41,10 +41,19 @@ int main(int argc, char* argv[])
         std::cout << "Error: connect" << std::endl;
         return 0;
     }
+	char buf[1024];
     while (true) {
+		memset(buf, 0, sizeof(buf));
+		recv(client, buf, sizeof(buf), 0);
 		send(client, argv[1], strlen(argv[1]), 0);
+		memset(buf, 0, sizeof(buf));
+		recv(client, buf, sizeof(buf), 0);
 		send(client, argv[2], strlen(argv[2]), 0);
+		memset(buf, 0, sizeof(buf));
+		recv(client, buf, sizeof(buf), 0);
 		send(client, argv[3], strlen(argv[3]), 0);
+		memset(buf, 0, sizeof(buf));
+		recv(client, buf, sizeof(buf), 0);
     }
     close(client);
 

@@ -99,6 +99,7 @@
     <IncludePath>/usr/include</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="JudgeCore.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SQL.cpp" />

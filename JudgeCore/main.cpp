@@ -51,6 +51,9 @@ void* OnThreadMain(void* lpVoid) {
 			TaskQueueLock.unlock();
 			continue;
 		}
+		int LanguageID = -1;
+		char ProblemBuf[128], SubmitBuf[128], OutputBuf[128];
+		char CommandBuf[256];
 		jdData = TaskQueue.front();
 		TaskQueue.pop();
 		TaskQueueLock.unlock();
@@ -60,7 +63,25 @@ void* OnThreadMain(void* lpVoid) {
 		LogQueue.push({ logbuf, namebuf, "I" });
 		LogQueueLock.unlock();
 
+		for (int i = 0; i < numLang; i++) 
+			if (strcmp(Language[i].name.c_str(), jdData.Language.c_str()) == 0) 
+			{LanguageID = i; break;}
 
+		sprintf(ProblemBuf, "%s/%s", strProblemDir.c_str(), jdData.ProblemID.c_str());
+		sprintf(SubmitBuf, "%s/%s", strSubmitDir.c_str(), jdData.SubmitID.c_str());
+		sprintf(OutputBuf, "%s/%s_judge", strCacheDir.c_str(), workerID);
+		if (Language[LanguageID].needCompile) {
+			sprintf(CommandBuf, Language[LanguageID].CommandLine.c_str(), SubmitBuf, OutputBuf);
+			int CompileRet = system(CommandBuf);
+			if (CompileRet != 0) {
+				sprintf(logbuf, "SubmitID:%d CompileError!", jdData.id);
+				LogQueueLock.lock();
+				LogQueue.push({ logbuf, namebuf, "I" });
+				LogQueueLock.unlock();
+				continue;
+			}
+
+		}
 	}
 
 	LogQueueLock.lock();
@@ -85,6 +106,8 @@ void DoExitClear() {
 		QueryThreadExist = false;
 		while (!isThreadExit)usleep(100);
 	}
+	delete[] Language;
+	delete[] pWorker;
 	return;
 }
 
@@ -129,7 +152,6 @@ int main(int argc, char* argv[])
 		LogQueue.push({ "Failed to load Config file!", "Main", "E" });
 		LogQueue.push({ "Stop.", "Main", "E" });
 		LogQueueLock.unlock();
-
 		ifs_cfg.close();
 #ifndef _DEBUG
 		return -1;
@@ -140,6 +162,15 @@ int main(int argc, char* argv[])
 	ConnectionQueueLength = (cfgroot["Bind"]["QueueLength"].isNull() ? DEFAULT_QUEUE : cfgroot["Bind"]["QueueLength"].asInt());
 	numThreads = (cfgroot["ThreadNum"].isNull() ? sysconf(_SC_NPROCESSORS_ONLN) : cfgroot["ThreadNum"].asInt());
 	strWelcome = (cfgroot["Welcome"].isNull() ? "JudgeCore-v0.1.0 Connect ID:%d\n" : cfgroot["Welcome"].asString());
+	strProblemDir = cfgroot["ProblemDir"].asString();
+	strSubmitDir = cfgroot["SubmitDir"].asString();
+	numLang = cfgroot["Languages"].size();
+	Language = new CompileLang[numLang];
+	for (int i = 0; i < numLang; i++) {
+		Language[i].name = cfgroot["Languages"][i]["Name"].asString();
+		Language[i].needCompile = cfgroot["Languages"][i]["NeedCompile"].asBool();
+		Language[i].CommandLine = cfgroot["Languages"][i]["CommandLine"].asString();
+	}
 
 	LogQueueLock.lock();
 	LogQueue.push({ "Config file Loaded.", "Main", "I" });

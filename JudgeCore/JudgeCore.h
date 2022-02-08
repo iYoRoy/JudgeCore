@@ -38,20 +38,35 @@ struct JudgeResult {
 	std::string SubmitID;
 	std::string Status;
 };
+union Command {
+	std::string Compile;
+	std::string Interpret;
+};
+struct CompileLang {
+	bool needCompile;
+	std::string name;
+	std::string CommandLine;
+};
 
-std::string strCfgFile;
-std::string strDataFolder;
-std::string strWelcome;
 pthread_t pLog, pSql, * pWorker;
 SQL db;
 Log log;
+CompileLang* Language;
+
 bool MainThreadStart, QueryThreadStart;
 bool QueryThreadExist, * MainThreadExist;
 bool isQueryThreadExit, isThreadExit;
 int numThreads;
+int numLang;
 int ConnectPort;
 int ConnectionQueueLength;
 
+std::string				strCfgFile;
+std::string				strDataFolder;
+std::string				strWelcome;
+std::string				strProblemDir;
+std::string				strSubmitDir;
+std::string				strCacheDir;
 std::queue<JudgeData>	TaskQueue;
 std::queue<LogInfo>		LogQueue;
 std::queue<JudgeResult> SQLQuery;
